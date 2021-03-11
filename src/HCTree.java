@@ -236,6 +236,7 @@ public class HCTree {
      * @throws IOException if the BitInputStream is invalid
      */
     public byte decode(BitInputStream in) throws IOException {
+        // traverses from root, reads bit to continue with left or right child until leaf is found
         HCNode curr = this.root;
         while (!curr.isLeaf()) {
             int bit = in.readBit();
@@ -253,6 +254,8 @@ public class HCTree {
      * @throws IOException if the BitOutputStream is invalid
      */
     public void encodeHCTree(HCNode node, BitOutputStream out) throws IOException {
+        // for every leaf found, write '1' and the symbol
+        // otherwise, write 0 and recurse on both children
         if (node.isLeaf()) {
             out.writeBit(1);
             out.writeByte(node.getSymbol());
